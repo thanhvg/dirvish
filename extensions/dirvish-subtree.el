@@ -226,6 +226,7 @@ creation even the entry is in nested subtree nodes."
 (defun dirvish-subtree--insert ()
   "Insert subtree under this directory."
   (let* ((dir (dired-get-filename))
+         (has-collapse (car (dirvish-collapse--cache dir)))
          (listing (dirvish-subtree--readin dir))
          buffer-read-only beg end)
     (dirvish--dir-data-async dir (current-buffer) t)
@@ -249,7 +250,12 @@ creation even the entry is in nested subtree nodes."
       (overlay-put ov 'dired-subtree-name dir)
       (overlay-put ov 'dired-subtree-depth depth)
       (overlay-put ov 'evaporate t)
-      (push ov dirvish-subtree--overlays))))
+      (push ov dirvish-subtree--overlays))
+    (when (and has-collapse
+               (not (string-equal dirvish-collapse-separator has-collapse)))
+      (save-excursion
+        (forward-line 1)
+        (dirvish-subtree--insert)))))
 
 (defun dirvish-subtree--revert (&optional clear)
   "Reinsert saved subtree nodes into the buffer.

@@ -84,5 +84,10 @@
         (add-face-text-property 0 (length str) hl-face nil str)
         `(left . ,str)))))
 
+(defun divish-collapse--p (dirname)
+  "True if the current dir is collapse type"
+  ;; TODO move th
+  )
+
 (provide 'dirvish-collapse)
 ;;; dirvish-collapse.el ends here
