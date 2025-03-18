@@ -251,11 +251,11 @@ creation even the entry is in nested subtree nodes."
       (overlay-put ov 'dired-subtree-depth depth)
       (overlay-put ov 'evaporate t)
       (push ov dirvish-subtree--overlays))
-    (when (and has-collapse
-               (not (string-equal dirvish-collapse-separator has-collapse)))
+    (when has-collapse
       (save-excursion
         (forward-line 1)
-        (dirvish-subtree--insert)))))
+        (when (file-directory-p (dired-get-filename))
+          (dirvish-subtree--insert))))))
 
 (defun dirvish-subtree--revert (&optional clear)
   "Reinsert saved subtree nodes into the buffer.
